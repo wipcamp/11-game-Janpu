@@ -29,22 +29,24 @@ class GameScene extends Phaser.Scene {
         player.setCollideWorldBounds(true);
         player.setMaxVelocity(300, 400).setFriction(800, 0);
 
-        
-        playimage1 = this.add.image(x+4400, y+50, 'platform');
+        platforms = this.physics.add.staticGroup();
+        platforms.create(x+4400, y+50, 'platform');
+        platforms.toggleVisible(false);
+
+        playimage1 = this.add.image(x+4700, y+50, 'platform');
         let tween = this.tweens.add({
             targets: playimage1,
-            x: 20000,
+            x: -500,
             ease: 'Power1',
             duration: 3000
         });
-    
         
         
         trees = this.physics.add.staticGroup();
         trees.create(x, y, 'tree');
 
 
-        // this.physics.add.collider(player, platforms);
+        this.physics.add.collider(player, platforms);
         // this.physics.add.collider(trees, platforms);
     
 
@@ -58,7 +60,7 @@ class GameScene extends Phaser.Scene {
             
         }
 
-        
+        this.physics.world.wrap(platforms, 16);
     }
 }
 

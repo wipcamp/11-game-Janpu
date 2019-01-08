@@ -2,6 +2,7 @@ import 'phaser';
 let phasers
 let zone
 let player
+let cursors
 let click
 class GameScene extends Phaser.Scene {
     constructor(config) {
@@ -11,34 +12,40 @@ class GameScene extends Phaser.Scene {
         phasers = config.scene
     }
 
-    preload(){
-        
+    preload() {
+
     }
 
 
     create() {
-        player = phasers.physics.add.sprite(50, 120, 'player')
+        player = phasers.physics.add.sprite(50, 280, 'player')
+        player.body.allowGravity = false;
         player.setScale(0.05);
 
-        zone = phasers.add.zone(0, 0, 400, 240).setOrigin(0).setName('left').setInteractive();
+        zone = phasers.add.zone(0, 0, 1260, 560).setOrigin(0).setName('left').setInteractive();
         console.log(zone)
 
         phasers.input.on('gameobjectdown', function (pointer) {
-                console.log('on')
-                player.setVelocityY(-400);
-                
+            console.log('on')
+            player.setVelocityY(-400);
+
         });
+
+        cursors = phasers.input.keyboard.createCursorKeys();
     }
 
 
     update() {
-        if(player.y <= 70){
-            player.setVelocityY(400);    
+        if(cursors.space.isDown){
+            player.setVelocityY(-400);
         }
-        
-        else if(player.y >=121){
-                player.setVelocityY(0);
-            }
+        else if (player.y <= 70) {
+            player.setVelocityY(400);
+        }
+
+        else if (player.y >= 281) {
+            player.setVelocityY(0);
+        }
     }
 }
 

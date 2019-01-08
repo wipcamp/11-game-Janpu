@@ -20,7 +20,11 @@ class GameScene extends Phaser.Scene {
     create() {
         platform1 = phasers.physics.add.sprite(1202, 280,'platform');
         platform2 = phasers.physics.add.sprite(3606, 280,'platform');
+
+        platform1.setImmovable(true)
+        platform2.setImmovable(true)
         
+        console.log(platform1)
         platform1.body.allowGravity = false;
         platform2.body.allowGravity = false;
         
@@ -36,6 +40,12 @@ class GameScene extends Phaser.Scene {
         });
 
         cursors = phasers.input.keyboard.createCursorKeys();
+    }
+
+    getPlatforms(){
+        return {
+            platform1:platform1,platform2:platform2
+        }
     }
 
 

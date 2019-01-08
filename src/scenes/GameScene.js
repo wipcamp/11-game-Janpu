@@ -25,7 +25,10 @@ class GameScene extends Phaser.Scene {
 
         this.load.image('tree', '../../images/tree.png');
 
-        this.load.image('player', '../src/image/ninja.jpg');
+        this.load.spritesheet('player', '../src/image/run.png',{
+            frameWidth: 16,
+            frameHeight: 16,
+        });
     }
 
     create() {

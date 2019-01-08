@@ -4,7 +4,6 @@ let platform
 let zone
 let player
 let cursors
-let num=0;
 
 class GameScene extends Phaser.Scene {
     constructor(config) {
@@ -24,32 +23,37 @@ class GameScene extends Phaser.Scene {
 
         player = phasers.physics.add.sprite(50, 200, 'player')
         player.body.allowGravity = true;
-        player.setScale(0.05);
+        player.setScale(1);
 
         zone = phasers.add.zone(0, 0, 1260, 560).setOrigin(0).setName('left').setInteractive();
         console.log(zone)
 
         phasers.input.on('gameobjectdown', function (pointer) {
             console.log('on')
+            player.anims.play('run');
             if(player.body.onFloor()){
                 player.setVelocityY(-400);
             }
             
         });
 
+        phasers.anims.create({
+            key: 'run',
+            frames: phasers.anims.generateFrameNumbers('player', { start: 0, end: 3 }),
+            frameRate: 50,
+            repeat: -1,
+          });
+
         phasers.physics.add.collider(player,platform);
 
         cursors = phasers.input.keyboard.createCursorKeys();
     }
 
-    getPlayer(){
-        return player;
-    }
-
-
     update() {
         if(player.body.onFloor()){
             if(cursors.space.isDown){
+            player.anims.play('run');
+            console.log('run');
             player.setVelocityY(-400);
         }
         else if (player.y <= 70) {

@@ -23,7 +23,7 @@ class GameScene extends Phaser.Scene {
 
         player = phasers.physics.add.sprite(50, 200, 'player')
         player.body.allowGravity = true;
-        player.setScale(1);
+        player.setScale(2);
 
         zone = phasers.add.zone(0, 0, 1260, 560).setOrigin(0).setName('left').setInteractive();
         console.log(zone)
@@ -54,10 +54,10 @@ class GameScene extends Phaser.Scene {
             if(cursors.space.isDown){
             player.anims.play('run');
             console.log('run');
-            player.setVelocityY(-400);
+            player.setVelocityY(-300);
         }
-        else if (player.y <= 70) {
-            player.setVelocityY(400);
+        else if (player.y <= 250) {
+            player.setVelocityY(1000);
         }
 
         else if (player.y >= 281) {

@@ -42,13 +42,6 @@ class GameScene extends Phaser.Scene {
         cursors = phasers.input.keyboard.createCursorKeys();
     }
 
-    getPlatforms(){
-        return {
-            platform1:platform1,platform2:platform2
-        }
-    }
-
-
     update() {
         
 

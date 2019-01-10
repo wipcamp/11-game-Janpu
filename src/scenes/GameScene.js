@@ -1,11 +1,13 @@
 import Player from './core/player'
 import Platform from './core/platform'
+import Obstracle from './core/obstracle'
 
 let trees;
 let x, y;
 let width, height;
 let player;
 let platform;
+let obstracle;
 
 class GameScene extends Phaser.Scene {
     constructor(test) {
@@ -22,6 +24,8 @@ class GameScene extends Phaser.Scene {
           });
 
         this.load.image('staticPlatform','../../images/platform.png')
+
+        this.load.image('obstracle','../src/image/weapon.png')
 
         this.load.image('tree', '../../images/tree.png');
 
@@ -49,11 +53,15 @@ class GameScene extends Phaser.Scene {
         platform = new Platform({scene: this,})
         platform.create(); 
 
+        obstracle = new Obstracle({scene: this,})
+        obstracle.create();
+
         }
 
     update() {
         player.update()
         platform.update();
+        obstracle.update();
     }
 }
 

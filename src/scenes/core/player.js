@@ -1,4 +1,5 @@
 import 'phaser';
+import { runInNewContext } from 'vm';
 let phasers
 let platform
 let zone
@@ -32,7 +33,8 @@ class GameScene extends Phaser.Scene {
             console.log('on')
             player.anims.play('run');
             if(player.body.onFloor()){
-                player.setVelocityY(-400);
+                player.setVelocityY(-300);    
+                     
             }
             
         });
@@ -47,15 +49,19 @@ class GameScene extends Phaser.Scene {
         phasers.physics.add.collider(player,platform);
 
         cursors = phasers.input.keyboard.createCursorKeys();
+
+
     }
 
     update() {
         if(player.body.onFloor()){
             if(cursors.space.isDown){
+                
             player.anims.play('run');
             console.log('run');
             player.setVelocityY(-300);
         }
+
         else if (player.y <= 250) {
             player.setVelocityY(1000);
         }
@@ -63,8 +69,11 @@ class GameScene extends Phaser.Scene {
         else if (player.y >= 281) {
             player.setVelocityY(0);
         }
+
+
         }
-        
+            
+               
     }
 }
 

@@ -1,6 +1,6 @@
 import Player from './core/player'
 import Platform from './core/platform'
-import Obstracle from './core/obstracle'
+//import Obstracle from './core/obstracle'
 
 let trees;
 let x, y;
@@ -53,15 +53,15 @@ class GameScene extends Phaser.Scene {
         platform = new Platform({scene: this,})
         platform.create(); 
 
-        obstracle = new Obstracle({scene: this,})
-        obstracle.create();
+       /* obstracle = new Obstracle({scene: this,})
+        obstracle.create();*/
 
         }
 
     update() {
         player.update()
         platform.update();
-        obstracle.update();
+        //obstracle.update();
     }
 }
 

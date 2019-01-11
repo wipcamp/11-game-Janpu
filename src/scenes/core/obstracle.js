@@ -7,6 +7,7 @@ let obstracle
 let cursors
 let count=0;
 let count1 = 0;
+let random;
 
 class GameScene extends Phaser.Scene {
     constructor(config) {
@@ -23,7 +24,9 @@ class GameScene extends Phaser.Scene {
 
     create() {
 
-        obstracle = phasers.add.image(1300,250,'obstracle');
+        random = Math.random()*1000
+
+        obstracle = phasers.add.image(1300+random,250,'obstracle');
         obstracle.setScale(0.05);
         
         phasers.input.on('gameobjectdown', function (pointer) {
@@ -47,9 +50,11 @@ class GameScene extends Phaser.Scene {
         if(count1>=1){
             obstracle.x -= 10;
             if(obstracle.x<=-10){
-                obstracle.x = 1300;
+                random = Math.random()*1000;
+                obstracle.x = 1300+random;
             }
         } 
+        console.log(random)
     }
 }
 

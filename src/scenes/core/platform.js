@@ -1,4 +1,5 @@
 import 'phaser';
+
 let phasers
 let zone
 let platform
@@ -15,6 +16,8 @@ let random2
 let count1 = 0;
 let rotate = 0;
 let speed = 0;
+let gameOver = false;
+
   
 let count = 0;
 
@@ -32,6 +35,7 @@ class GameScene extends Phaser.Scene {
 
 
     create() {
+
 
         random = Math.random()*1000
         random2 = Math.random()*1000
@@ -90,6 +94,23 @@ class GameScene extends Phaser.Scene {
 
         scoreText = phasers.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#FFFFFF' });
 
+    }
+
+    gameOver(){
+        num = 0;
+        num -= 10;
+        rotate = 0;
+        count1 = 0;
+        count1 -= 10;
+        phasers.physics.pause();
+    }
+
+    getObstracle(){
+        return obstracle;
+    }
+
+    getObstracle2(){
+        return obstracle2;
     }
 
     update() {
@@ -165,5 +186,7 @@ class GameScene extends Phaser.Scene {
         console.log(random2)
     }
 }
+
+
 
 export default GameScene;

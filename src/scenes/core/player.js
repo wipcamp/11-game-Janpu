@@ -1,10 +1,14 @@
 import 'phaser';
+import Platform from './platform'
+
 import { runInNewContext } from 'vm';
 let phasers
-let platform
+let hiddenPlatform
 let zone
 let player
 let cursors
+let platform
+let gameOver = false;
 
 class GameScene extends Phaser.Scene {
     constructor(config) {
@@ -20,7 +24,7 @@ class GameScene extends Phaser.Scene {
 
 
     create() {
-        platform = phasers.physics.add.staticImage(50,280,'staticPlatform').setVisible(false);
+        hiddenPlatform = phasers.physics.add.staticImage(50,280,'staticPlatform').setVisible(false);
 
         player = phasers.physics.add.sprite(50, 200, 'player')
         player.body.allowGravity = true;
@@ -30,7 +34,6 @@ class GameScene extends Phaser.Scene {
         console.log(zone)
 
         phasers.input.on('gameobjectdown', function (pointer) {
-            console.log('on')
             player.anims.play('run');
             if(player.body.onFloor()){
                 player.setVelocityY(-300);    
@@ -46,19 +49,42 @@ class GameScene extends Phaser.Scene {
             repeat: -1,
           });
 
-        phasers.physics.add.collider(player,platform);
+          phasers.anims.create({
+            key: 'die',
+            frames: phasers.anims.generateFrameNumbers('player', { start: 0, end: 0 }),
+            frameRate: 50,
+            repeat: -1,
+          });
+
+        phasers.physics.add.collider(player,hiddenPlatform);
 
         cursors = phasers.input.keyboard.createCursorKeys();
 
+        platform = new Platform({scene: phasers,})
+        platform.create();
+        phasers.physics.add.collider(player,platform.getObstracle(),hit);
+        phasers.physics.add.collider(player,platform.getObstracle2(),hit);
 
     }
 
+    getPlayer(){
+        return player;
+    }
+
     update() {
+
+        platform.update();
+
+        if(gameOver == true){
+            phasers.physics.pause();
+            platform.gameOver();
+                      
+        }
+
         if(player.body.onFloor()){
             if(cursors.space.isDown){
                 
             player.anims.play('run');
-            console.log('run');
             player.setVelocityY(-300);
         }
 
@@ -75,6 +101,11 @@ class GameScene extends Phaser.Scene {
             
                
     }
+}
+
+function hit(){
+    player.anims.play('die');
+    gameOver = true;
 }
 
 export default GameScene;

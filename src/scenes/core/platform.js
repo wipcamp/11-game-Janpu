@@ -116,10 +116,12 @@ class GameScene extends Phaser.Scene {
         score = 0;
         scoreText.setText('Score: ' + score);
 
-        obstracle.x = 500;
-        obstracle2.x = 900;
+        obstracle.x = -10;
+        obstracle2.x = -10;
         platform1.x = 1202;        
         platform2.x =3606;
+        platform1.setVelocityX(0);
+        platform2.setVelocityX(0);
 
         phasers.physics.resume();
 

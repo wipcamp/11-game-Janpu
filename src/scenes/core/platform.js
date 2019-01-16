@@ -1,4 +1,5 @@
 import 'phaser';
+import PopUpRetry from './popUpRetry';
 
 let phasers
 let zone
@@ -17,6 +18,7 @@ let count1 = 0;
 let rotate = 0;
 let speed = 0;
 let gameOver = false;
+let popUp;
 
   
 let count = 0;
@@ -35,6 +37,9 @@ class GameScene extends Phaser.Scene {
 
 
     create() {
+
+        popUp = new PopUpRetry({scene: phasers,})
+        popUp.create();
 
 
         random = Math.random()*1000
@@ -56,7 +61,6 @@ class GameScene extends Phaser.Scene {
         platform1.setImmovable(true)
         platform2.setImmovable(true)
         
-        console.log(platform1)
         platform1.body.allowGravity = false;
         platform2.body.allowGravity = false;
 
@@ -64,11 +68,9 @@ class GameScene extends Phaser.Scene {
         phasers.physics.add.collider(platform,obstracle2)
 
         zone = phasers.add.zone(0, 0, 1260, 560).setOrigin(0).setName('zone').setInteractive();
-        console.log(zone)
 
         phasers.input.on('gameobjectdown', function (pointer) {
             count1 +=1;    
-            console.log('on')
             num += 1;
             platform1.setVelocityX(-400)
             platform2.setVelocityX(-400)
@@ -103,6 +105,24 @@ class GameScene extends Phaser.Scene {
         count1 = 0;
         count1 -= 10;
         phasers.physics.pause();
+        popUp.gameOver();
+    }
+
+    restart(){
+        num = 0;
+        speed = 0;
+        count1 = 0;
+        count = 0;
+        score = 0;
+        scoreText.setText('Score: ' + score);
+
+        obstracle.x = 500;
+        obstracle2.x = 900;
+        platform1.x = 1202;        
+        platform2.x =3606;
+
+        phasers.physics.resume();
+
     }
 
     getObstracle(){
@@ -145,7 +165,6 @@ class GameScene extends Phaser.Scene {
         }
 
         else if(num > 0){
-            console.log('run')
             score += 10;
             scoreText.setText('Score: ' + score);
             if(score>=1000){
@@ -182,8 +201,6 @@ class GameScene extends Phaser.Scene {
             }
         } 
 
-        console.log(random)
-        console.log(random2)
     }
 }
 

@@ -36,7 +36,7 @@ class GameScene extends Phaser.Scene {
         phasers.input.on('gameobjectdown', function (pointer) {
             player.anims.play('run');
             if(player.body.onFloor()){
-                player.setVelocityY(-300);    
+                player.setVelocityY(-500 );    
                      
             }
             
@@ -67,6 +67,10 @@ class GameScene extends Phaser.Scene {
 
     }
 
+    restart(){
+        console.log('re')
+    }
+
     getPlayer(){
         return player;
     }
@@ -77,7 +81,7 @@ class GameScene extends Phaser.Scene {
 
         if(gameOver == true){
             phasers.physics.pause();
-            platform.gameOver();
+            platform.gameOver(); 
                       
         }
 
@@ -85,11 +89,11 @@ class GameScene extends Phaser.Scene {
             if(cursors.space.isDown){
                 
             player.anims.play('run');
-            player.setVelocityY(-300);
+            player.setVelocityY(-500);
         }
 
         else if (player.y <= 250) {
-            player.setVelocityY(1000);
+            player.setVelocityY(2000);
         }
 
         else if (player.y >= 281) {

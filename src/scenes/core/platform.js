@@ -38,25 +38,22 @@ class GameScene extends Phaser.Scene {
 
     create() {
 
-        popUp = new PopUpRetry({scene: phasers,})
-        popUp.create();
-
 
         random = Math.random()*1000
         random2 = Math.random()*1000
-
-        platform = phasers.physics.add.staticImage(50,280,'staticPlatform').setVisible(false);
-
-
-        obstracle = phasers.physics.add.image(500,250,'obstracle');
-        obstracle.setScale(0.05);
-
-        obstracle2 = phasers.physics.add.image(900,250,'obstracle');
-        obstracle2.setScale(0.05);
         
 
-        platform1 = phasers.physics.add.sprite(1202, 280,'platform');
-        platform2 = phasers.physics.add.sprite(3606, 280,'platform');
+        platform1 = phasers.physics.add.sprite(5100, 450,'platform').setScale(1);
+        platform2 = phasers.physics.add.sprite(15300, 450,'platform').setScale(1);
+
+        platform = phasers.physics.add.staticImage(50,420,'staticPlatform').setVisible(false);
+
+
+        obstracle = phasers.physics.add.image(500,370,'obstracle');
+        obstracle.setScale(0.05);
+
+        obstracle2 = phasers.physics.add.image(900,370,'obstracle');
+        obstracle2.setScale(0.05);
 
         platform1.setImmovable(true)
         platform2.setImmovable(true)
@@ -84,9 +81,9 @@ class GameScene extends Phaser.Scene {
                     platform2.setVelocityX(speed);
                     obstracle.setVelocityX(speed);
                     obstracle2.setVelocityX(speed);
-                    if(platform1.x<=-1202){
-                        platform1.x = 1202;
-                        platform2.x = 3606;
+                    if(platform1.x<=-5100){
+                        platform1.x = 5100;
+                        platform2.x = 15300;
                     }
                 }
             }
@@ -105,7 +102,6 @@ class GameScene extends Phaser.Scene {
         count1 = 0;
         count1 -= 10;
         phasers.physics.pause();
-        popUp.gameOver();
     }
 
     restart(){
@@ -118,8 +114,14 @@ class GameScene extends Phaser.Scene {
 
         obstracle.x = 500;
         obstracle2.x = 900;
+        platform1.x = 5100;        
+        platform2.x =15300;
+        obstracle.x = -10;
+        obstracle2.x = -10;
         platform1.x = 1202;        
         platform2.x =3606;
+        platform1.setVelocityX(0);
+        platform2.setVelocityX(0);
 
         phasers.physics.resume();
 
@@ -151,17 +153,17 @@ class GameScene extends Phaser.Scene {
                     platform2.setVelocityX(speed);
                     obstracle.setVelocityX(speed);
                     obstracle2.setVelocityX(speed);
-                    if(platform1.x<=-1202){
-                        platform1.x = 1202;
-                        platform2.x = 3606;
+                    if(platform1.x<=-5100){
+                        platform1.x = 5100;
+                        platform2.x = 15300;
                     }
                 }
             }
                  
         }
-        else if(platform1.x<=-1202){
-            platform1.x = 1202;
-            platform2.x = 3606;
+        else if(platform1.x<=-5100){
+            platform1.x = 5100;
+            platform2.x = 15300;
         }
 
         else if(num > 0){
@@ -172,9 +174,9 @@ class GameScene extends Phaser.Scene {
                 platform2.setVelocityX(speed);
                 obstracle.setVelocityX(speed);
                 obstracle2.setVelocityX(speed);
-                if(platform1.x<=-1202){
-                    platform1.x = 1202;
-                    platform2.x = 3606;
+                if(platform1.x<=-5100){
+                    platform1.x = 5100;
+                    platform2.x = 15300;
                 }
             }
         }

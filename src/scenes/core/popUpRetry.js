@@ -1,12 +1,14 @@
 import 'phaser';
 import Player from './player';
 import Platform from './platform'
+import { RefCountDisposable, CompositeDisposable } from 'rx';
 
 let phasers
 let popUp
 let retry
 let player
 let platform
+let count =0;
 
 
 class GameScene extends Phaser.Scene {
@@ -18,32 +20,43 @@ class GameScene extends Phaser.Scene {
     }
 
     preload() {
-        
+
     }
 
 
     create() {
 
-        player = new Player({scene:phasers,});
+        player = new Player({ scene: phasers, });
 
-        platform = new Platform({scene:phasers,});
+        platform = new Platform({ scene: phasers, });
 
 
-        popUp = phasers.physics.add.staticImage(590,280,'gameover').setVisible(false);
-        retry = phasers.add.image(750,280,'retry').setVisible(false).setScale(0.10);
-        retry.setInteractive(); 
+        popUp = phasers.physics.add.staticImage(590, 280, 'gameover').setVisible(false);
+        retry = phasers.add.image(750, 280, 'retry').setVisible(false).setScale(0.10);
+        retry.setInteractive();
     }
 
-    gameOver(){
+    gameOver() {
         popUp.setVisible(true);
         retry.setVisible(true);
-        retry.on ('pointerup', () => { 
+        retry.on('pointerup', () => {
+            popUp.setVisible(false);
+            retry.setVisible(false);
             player.restart();
             platform.restart();
         });
     }
 
+    getPopUp(){
+        return popUp;
+    }
+
+    getRetry(){
+        return retry;
+    }
+
     update() {
+
     }
 }
 

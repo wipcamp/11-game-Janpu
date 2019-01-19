@@ -17,15 +17,17 @@ class GameScene extends Phaser.Scene {
     }
 
     preload() {
+        
+        this.load.image('obstracle','../src/image/weapon.png')
 
-        this.load.spritesheet('platform', '../../images/ground.png', {
-            frameWidth: 2404,
-            frameHeight: 28,
+        this.load.spritesheet('platform', '../../images/bg.png', {
+            frameWidth: 10200,
+            frameHeight: 250,
           });
 
         this.load.image('staticPlatform','../../images/platform.png')
 
-        this.load.image('obstracle','../src/image/weapon.png')
+        
 
         this.load.image('tree', '../../images/tree.png');
 
@@ -40,13 +42,15 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
+        
+        popUp = new PopUpRetry({scene: this,})
+        
         player = new Player({ scene: this, })
         player.create()
 
         platform = new Platform({scene: this,})
 
-        popUp = new PopUpRetry({scene: this,})
-        popUp.create()
+        
         }
 
     update() {

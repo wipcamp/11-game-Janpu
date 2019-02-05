@@ -1,7 +1,8 @@
 import 'phaser';
 import Platform from './platform'
+import PopUpRetry from './popUpRetry';
+import Responsive from './responsive'
 
-import { runInNewContext } from 'vm';
 let phasers
 let hiddenPlatform
 let zone
@@ -9,6 +10,8 @@ let player
 let cursors
 let platform
 let gameOver = false;
+let popUp;
+let scale
 
 class GameScene extends Phaser.Scene {
     constructor(config) {
@@ -24,13 +27,22 @@ class GameScene extends Phaser.Scene {
 
 
     create() {
-        hiddenPlatform = phasers.physics.add.staticImage(50, 280, 'staticPlatform').setVisible(false);
+        let respon =new Responsive()
+        respon.check(phasers.scene.manager.game.config.height,phasers.scene.manager.game.config.width)
 
-        player = phasers.physics.add.sprite(50, 200, 'player')
+        scale = respon.getScale();
+        console.log(scale)
+
+        platform = new Platform({scene: phasers,})
+        platform.create();
+        
+        hiddenPlatform = phasers.physics.add.staticImage(50,platform.getPlatformY(),'staticPlatform').setVisible(false).setScale(scale);
+
+        player = phasers.physics.add.sprite(50, hiddenPlatform.y -70, 'player')
         player.body.allowGravity = true;
-        player.setScale(2);
+        player.setScale(0.05*scale);
 
-        zone = phasers.add.zone(0, 0, 1260, 560).setOrigin(0).setName('left').setInteractive();
+        zone = phasers.add.zone(0, 0, respon.getPositionX()*2, respon.getPositionY()*2).setOrigin(0).setName('left').setInteractive();
         console.log(zone)
 
         phasers.input.on('gameobjectdown', function (pointer) {
@@ -44,7 +56,7 @@ class GameScene extends Phaser.Scene {
 
         phasers.anims.create({
             key: 'run',
-            frames: phasers.anims.generateFrameNumbers('player', { start: 0, end: 3 }),
+            frames: phasers.anims.generateFrameNumbers('player', { start: 0, end: 2 }),
             frameRate: 50,
             repeat: -1,
         });
@@ -60,15 +72,17 @@ class GameScene extends Phaser.Scene {
 
         cursors = phasers.input.keyboard.createCursorKeys();
 
-        platform = new Platform({ scene: phasers, })
-        platform.create();
-        phasers.physics.add.overlap(player, platform.getObstracle(), hit);
-        phasers.physics.add.overlap(player, platform.getObstracle2(), hit);
+        phasers.physics.add.overlap(player,platform.getObstracle(),hit);
+        phasers.physics.add.overlap(player,platform.getObstracle2(),hit);
+
+        popUp = new PopUpRetry({scene: phasers,})
+        popUp.create();
 
     }
 
-    restart() {
-        phasers.physics.resume();
+    restart(){
+        popUp.getPopUp().setVisible(false);
+        popUp.getRetry().setVisible(false);
         gameOver = false;
     }
 
@@ -80,31 +94,21 @@ class GameScene extends Phaser.Scene {
 
         platform.update();
 
-        if (gameOver == true) {
-            phasers.physics.pause();
-            platform.gameOver();
-
+        if(gameOver == true){
+            player.setVelocityY(0);
+            platform.gameOver(); 
+            popUp.gameOver();        
         }
 
-        if (player.body.onFloor()) {
-            if (cursors.space.isDown) {
-
-                player.anims.play('run');
-                player.setVelocityY(-500);
-            }
-
-            else if (player.y <= 250) {
-                player.setVelocityY(2000);
-            }
-
-            else if (player.y >= 281) {
-                player.setVelocityY(0);
-            }
-
-
+        if(player.body.onFloor()){
+            if(cursors.space.isDown){
+                
+            player.anims.play('run');
+            player.setVelocityY(-500 );
         }
-
-
+        }
+            
+               
     }
 }
 

@@ -17,36 +17,44 @@ class GameScene extends Phaser.Scene {
     }
 
     preload() {
+        
+        this.load.image('obstracle','../../images/daokrajai.png')
 
-        this.load.spritesheet('platform', '../../images/ground.png', {
-            frameWidth: 2404,
-            frameHeight: 28,
-          });
+        this.load.image('platform', '../../images/bg.png')
 
         this.load.image('staticPlatform','../../images/platform.png')
 
-        this.load.image('obstracle','../src/image/weapon.png')
+        this.load.image('gameoverbg','../../images/gameoverbg.png')
 
         this.load.image('tree', '../../images/tree.png');
 
-        this.load.image('retry','../src/image/retry.png')
+        this.load.image('share','../../images/fbShare1.png')
 
-        this.load.image('gameover','../src/image/gameover.jpg')
+        this.load.image('gameover','../../images/gameover.png')
 
-        this.load.spritesheet('player', '../src/image/run.png',{
-            frameWidth: 16,
-            frameHeight: 16,
+        this.load.spritesheet('player', '../../images/run.png',{
+            frameWidth: 1102,
+            frameHeight: 1602,
+        });
+
+        this.load.spritesheet('retry', '../../images/retry.png',{
+            frameWidth: 185,
+            frameHeight: 164,
         });
     }
 
     create() {
+        console.log(this.scene.manager.game.config.height)
+        console.log(this.scene.manager.game.config.width)
+        
+        popUp = new PopUpRetry({scene: this,})
+        
         player = new Player({ scene: this, })
         player.create()
 
         platform = new Platform({scene: this,})
 
-        popUp = new PopUpRetry({scene: this,})
-        popUp.create()
+        
         }
 
     update() {

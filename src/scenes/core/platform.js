@@ -1,6 +1,8 @@
 import 'phaser';
-import PopUpRetry from './popUpRetry';
+import Responsive from './responsive';
 
+let scale
+let responsive
 let phasers
 let zone
 let platform
@@ -18,8 +20,6 @@ let count1 = 0;
 let rotate = 0;
 let speed = 0;
 let gameOver = false;
-let popUp;
-
   
 let count = 0;
 
@@ -37,26 +37,27 @@ class GameScene extends Phaser.Scene {
 
 
     create() {
+        let respon =new Responsive()
+        respon.check(phasers.scene.manager.game.config.height,phasers.scene.manager.game.config.width)
 
-        popUp = new PopUpRetry({scene: phasers,})
-        popUp.create();
-
+        scale = respon.getScale()
+        console.log(scale)
 
         random = Math.random()*1000
         random2 = Math.random()*1000
-
-        platform = phasers.physics.add.staticImage(50,280,'staticPlatform').setVisible(false);
-
-
-        obstracle = phasers.physics.add.image(500,250,'obstracle');
-        obstracle.setScale(0.05);
-
-        obstracle2 = phasers.physics.add.image(900,250,'obstracle');
-        obstracle2.setScale(0.05);
         
 
-        platform1 = phasers.physics.add.sprite(1202, 280,'platform');
-        platform2 = phasers.physics.add.sprite(3606, 280,'platform');
+        platform1 = phasers.physics.add.sprite(5100*scale, respon.getPositionY(),'platform').setScale(1*scale);
+        platform2 = phasers.physics.add.sprite(13240*scale, respon.getPositionY(),'platform').setScale(1*scale);
+
+        platform = phasers.physics.add.staticImage(50,platform1.y+70,'staticPlatform').setVisible(false).setScale(scale);
+
+
+        obstracle = phasers.physics.add.image(500,platform.y -30,'obstracle');
+        obstracle.setScale(0.1*scale);
+
+        obstracle2 = phasers.physics.add.image(900,platform.y - 30,'obstracle');
+        obstracle2.setScale(0.1*scale);
 
         platform1.setImmovable(true)
         platform2.setImmovable(true)
@@ -67,7 +68,8 @@ class GameScene extends Phaser.Scene {
         phasers.physics.add.collider(platform,obstracle)
         phasers.physics.add.collider(platform,obstracle2)
 
-        zone = phasers.add.zone(0, 0, 1260, 560).setOrigin(0).setName('zone').setInteractive();
+        zone = phasers.add.zone(0, 0, respon.getPositionX()*2, respon.getPositionY()*2).setOrigin(0).setName('zone').setInteractive();
+
 
         phasers.input.on('gameobjectdown', function (pointer) {
             count1 +=1;    
@@ -76,19 +78,11 @@ class GameScene extends Phaser.Scene {
             platform2.setVelocityX(-400)
             obstracle.setVelocityX(-400)
             obstracle2.setVelocityX(-400)
-            if(num>0){
-                score += 10;
-                scoreText.setText('Score: ' + score);
-                if(score>=1000){
-                    platform1.setVelocityX(speed);
-                    platform2.setVelocityX(speed);
-                    obstracle.setVelocityX(speed);
-                    obstracle2.setVelocityX(speed);
-                    if(platform1.x<=-1202){
-                        platform1.x = 1202;
-                        platform2.x = 3606;
-                    }
-                }
+            if(score>=1000){
+                platform1.setVelocityX(speed);
+                platform2.setVelocityX(speed);
+                obstracle.setVelocityX(speed);
+                obstracle2.setVelocityX(speed);
             }
         });
 
@@ -99,14 +93,18 @@ class GameScene extends Phaser.Scene {
     }
 
     gameOver(){
+
         num = 0;
         num -= 10;
         rotate = 0;
         count1 = 0;
         count1 -= 10;
-        phasers.physics.pause();
-        popUp.gameOver();
-    }
+        platform1.setVelocityX(0)
+        platform2.setVelocityX(0)
+        obstracle.setVelocityX(0)
+        obstracle2.setVelocityX(0)
+
+        }
 
     restart(){
         num = 0;
@@ -116,15 +114,15 @@ class GameScene extends Phaser.Scene {
         score = 0;
         scoreText.setText('Score: ' + score);
 
-        obstracle.x = -10;
-        obstracle2.x = -10;
-        platform1.x = 1202;        
-        platform2.x =3606;
-        platform1.setVelocityX(0);
-        platform2.setVelocityX(0);
-
-        phasers.physics.resume();
-
+        obstracle.x = 500;
+        obstracle2.x = 900;
+        platform1.x = 5100*scale;        
+        platform2.x =10200*scale;
+    
+        platform1.setVelocityX(0)
+        platform2.setVelocityX(0)
+        obstracle.setVelocityX(0)
+        obstracle2.setVelocityX(0)
     }
 
     getObstracle(){
@@ -133,6 +131,10 @@ class GameScene extends Phaser.Scene {
 
     getObstracle2(){
         return obstracle2;
+    }
+
+    getPlatformY(){
+        return platform.y;
     }
 
     update() {
@@ -145,28 +147,22 @@ class GameScene extends Phaser.Scene {
             platform2.setVelocityX(-400);
             obstracle.setVelocityX(-400);
             obstracle2.setVelocityX(-400);
-            if(num>0){
-                score += 10;
-                scoreText.setText('Score: ' + score);
-                if(score>=1000){
-                    platform1.setVelocityX(speed);
-                    platform2.setVelocityX(speed);
-                    obstracle.setVelocityX(speed);
-                    obstracle2.setVelocityX(speed);
-                    if(platform1.x<=-1202){
-                        platform1.x = 1202;
-                        platform2.x = 3606;
-                    }
-                }
+            if(score>=1000){
+                platform1.setVelocityX(speed);
+                platform2.setVelocityX(speed);
+                obstracle.setVelocityX(speed);
+                obstracle2.setVelocityX(speed);
             }
+
                  
         }
-        else if(platform1.x<=-1202){
-            platform1.x = 1202;
-            platform2.x = 3606;
+
+        if(platform1.x <= -3040){
+            platform1.x = 5100;
+            platform2.x = 13240;
         }
 
-        else if(num > 0){
+        if(num > 0){
             score += 10;
             scoreText.setText('Score: ' + score);
             if(score>=1000){
@@ -174,10 +170,6 @@ class GameScene extends Phaser.Scene {
                 platform2.setVelocityX(speed);
                 obstracle.setVelocityX(speed);
                 obstracle2.setVelocityX(speed);
-                if(platform1.x<=-1202){
-                    platform1.x = 1202;
-                    platform2.x = 3606;
-                }
             }
         }
 

@@ -23,7 +23,7 @@ class GameScene extends Phaser.Scene {
     }
 
     preload() {
-        
+
     }
 
 
@@ -44,7 +44,7 @@ class GameScene extends Phaser.Scene {
 
         player = new Player({scene:phasers,});
 
-        platform = new Platform({scene:phasers,});
+        platform = new Platform({ scene: phasers, });
 
         phasers.anims.create({
             key: 'retry',

@@ -47,11 +47,11 @@ class GameScene extends Phaser.Scene {
 
         phasers.input.on('gameobjectdown', function (pointer) {
             player.anims.play('run');
-            if(player.body.onFloor()){
-                player.setVelocityY(-500 );    
-                     
+            if (player.body.onFloor()) {
+                player.setVelocityY(-500);
+
             }
-            
+
         });
 
         phasers.anims.create({
@@ -59,16 +59,16 @@ class GameScene extends Phaser.Scene {
             frames: phasers.anims.generateFrameNumbers('player', { start: 0, end: 2 }),
             frameRate: 50,
             repeat: -1,
-          });
+        });
 
-          phasers.anims.create({
+        phasers.anims.create({
             key: 'die',
             frames: phasers.anims.generateFrameNumbers('player', { start: 0, end: 0 }),
             frameRate: 50,
             repeat: -1,
-          });
+        });
 
-        phasers.physics.add.collider(player,hiddenPlatform);
+        phasers.physics.add.collider(player, hiddenPlatform);
 
         cursors = phasers.input.keyboard.createCursorKeys();
 
@@ -86,7 +86,7 @@ class GameScene extends Phaser.Scene {
         gameOver = false;
     }
 
-    getPlayer(){
+    getPlayer() {
         return player;
     }
 
@@ -112,7 +112,7 @@ class GameScene extends Phaser.Scene {
     }
 }
 
-function hit(){
+function hit() {
     player.anims.play('die');
     gameOver = true;
 }

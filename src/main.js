@@ -7,12 +7,12 @@ const config = {
     pixelArt: true,
     roundPixels: true,
     parent: 'content',
-    width: 1260,
-    height: 560,
+    width: window.screen.width,
+    height: window.screen.height,
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 400 },
+            gravity: { y: 900 },
             debug: false
         }
     },

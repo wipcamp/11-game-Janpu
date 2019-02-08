@@ -17,10 +17,14 @@ class GameScene extends Phaser.Scene {
     }
 
     preload() {
+
+        this.load.image('gamecenter','../../images/gamecenter.png')
+
+        this.load.image('bg','../../images/bgg.png')
         
         this.load.image('obstracle','../../images/daokrajai.png')
 
-        this.load.image('platform', '../../images/bg.png')
+        this.load.image('platform', '../../images/bg1.png')
 
         this.load.image('staticPlatform','../../images/platform.png')
 

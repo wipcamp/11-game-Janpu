@@ -20,6 +20,9 @@ let count1 = 0;
 let rotate = 0;
 let speed = 0;
 let gameOver = false;
+let bg
+let gamecenter
+let lastScore = 0
   
 let count = 0;
 
@@ -37,20 +40,24 @@ class GameScene extends Phaser.Scene {
 
 
     create() {
+
         let respon =new Responsive()
         respon.check(phasers.scene.manager.game.config.height,phasers.scene.manager.game.config.width)
+
+        bg = phasers.physics.add.staticImage(respon.getPositionX(),respon.getPositionY()+80,'bg')
 
         scale = respon.getScale()
         console.log(scale)
 
         random = Math.random()*1000
         random2 = Math.random()*1000
-        
+
+        gamecenter = phasers.physics.add.staticImage(respon.getPositionX(),respon.getPositionY()+respon.getPositionY()-40,'gamecenter').setScale(scale*0.5)
 
         platform1 = phasers.physics.add.sprite(5100*scale, respon.getPositionY(),'platform').setScale(1*scale);
-        platform2 = phasers.physics.add.sprite(13240*scale, respon.getPositionY(),'platform').setScale(1*scale);
+        platform2 = phasers.physics.add.sprite(15300*scale, respon.getPositionY(),'platform').setScale(1*scale);
 
-        platform = phasers.physics.add.staticImage(50,platform1.y+70,'staticPlatform').setVisible(false).setScale(scale);
+        platform = phasers.physics.add.staticImage(50,platform1.y+110,'staticPlatform').setVisible(false).setScale(scale);
 
 
         obstracle = phasers.physics.add.image(500,platform.y -30,'obstracle');
@@ -88,7 +95,7 @@ class GameScene extends Phaser.Scene {
 
         cursors = phasers.input.keyboard.createCursorKeys();
 
-        scoreText = phasers.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#FFFFFF' });
+        scoreText = phasers.add.text(16, respon.getPositionY()-160*scale, 'score: 0', { fontSize: 30*scale, fill: '#372f2d' });
 
     }
 
@@ -103,6 +110,7 @@ class GameScene extends Phaser.Scene {
         platform2.setVelocityX(0)
         obstracle.setVelocityX(0)
         obstracle2.setVelocityX(0)
+        lastScore = score;
 
         }
 
@@ -117,12 +125,16 @@ class GameScene extends Phaser.Scene {
         obstracle.x = 500;
         obstracle2.x = 900;
         platform1.x = 5100*scale;        
-        platform2.x =10200*scale;
+        platform2.x =15300*scale;
     
         platform1.setVelocityX(0)
         platform2.setVelocityX(0)
         obstracle.setVelocityX(0)
         obstracle2.setVelocityX(0)
+    }
+
+    getLastScore(){
+        return lastScore;
     }
 
     getObstracle(){
@@ -138,7 +150,9 @@ class GameScene extends Phaser.Scene {
     }
 
     update() {
-        
+
+        lastScore = score;
+
 
         if(cursors.space.isDown){
             count1 +=1;  
@@ -157,14 +171,18 @@ class GameScene extends Phaser.Scene {
                  
         }
 
-        if(platform1.x <= -3040){
-            platform1.x = 5100;
-            platform2.x = 13240;
+        if(platform1.x <= -5090*scale){
+            platform1.x = 15300*scale;
+        }
+
+        if(platform2.x <= -5090*scale){
+            platform2.x = 15300*scale;
         }
 
         if(num > 0){
             score += 10;
             scoreText.setText('Score: ' + score);
+            score = score;
             if(score>=1000){
                 platform1.setVelocityX(speed);
                 platform2.setVelocityX(speed);
@@ -175,7 +193,7 @@ class GameScene extends Phaser.Scene {
 
         if(score >= 1000+(count*1000)){
             count += 1
-            speed = -400-(count*10)
+            speed = (-400-(count*10))
         }
         
         rotate -= 10;
@@ -187,11 +205,11 @@ class GameScene extends Phaser.Scene {
             obstracle2.x -= 10;
             if(obstracle.x<=-10){
                 random = Math.random()*1000;
-                obstracle.x = 1300+random;
+                obstracle.x = 1700+random;
             }
             else if(obstracle2.x<=-10){
                 random2 = Math.random()*1000;
-                obstracle2.x = 1300+random2;
+                obstracle2.x = 1700+random2;
             }
         } 
 

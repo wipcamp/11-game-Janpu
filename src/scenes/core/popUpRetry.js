@@ -12,6 +12,8 @@ let count =0;
 let popUpBg
 let share
 let scale
+let score = 0;
+let lastscore
 
 
 class GameScene extends Phaser.Scene {
@@ -36,10 +38,11 @@ class GameScene extends Phaser.Scene {
 
         popUpBg = phasers.physics.add.staticImage(respon.getPositionX(),respon.getPositionY(),'gameoverbg').setVisible(false)
         popUp = phasers.physics.add.staticImage(respon.getPositionX(),respon.getPositionY()-20,'gameover').setVisible(false).setScale(0.25*scale);
-        retry = phasers.add.sprite(popUp.x-50,popUp.y+60,'retry').setVisible(false).setScale(0.15*scale);
+        retry = phasers.add.sprite(popUp.x-50,popUp.y+80,'retry').setVisible(false).setScale(0.15*scale);
         retry.setInteractive(); 
 
-        share = phasers.add.image(popUp.x+50,popUp.y+60,'share').setVisible(false).setScale(0.15*scale);
+
+        share = phasers.add.image(popUp.x+50,popUp.y+80,'share').setVisible(false).setScale(0.15*scale);
         share.setInteractive();
 
         player = new Player({scene:phasers,});
@@ -48,20 +51,25 @@ class GameScene extends Phaser.Scene {
 
         phasers.anims.create({
             key: 'retry',
-            frames: phasers.anims.generateFrameNumbers('retry', { start: 0, end: 2 }),
+            frames: phasers.anims.generateFrameNumbers('retry', { start: 1, end: 2 }),
             frameRate: 50,
             repeat: -1,
           });
 
+          lastscore = phasers.add.text(popUp.x-80,popUp.y+20, 'your score:'+score, { fontSize: 20*scale, fill: '#372f2d' }).setVisible(false);  
+
     }
 
     gameOver(){
+        lastscore.setText('your score:'+score)
+        lastscore .setVisible(true);
         popUpBg.setVisible(true)
         popUp.setVisible(true);
         retry.setVisible(true);
         retry.on ('pointerup', () => { 
-            popUpBg.setVisible(false)
+            lastscore.setVisible(false)
             share.setVisible(false)
+            lastscore.setVisible(false)
             player.restart();
             platform.restart();
             platform.update();
@@ -83,10 +91,10 @@ class GameScene extends Phaser.Scene {
     }
 
     update() {
-        if(count>0){
-            popUp.setVisible(true);
-            retry.setVisible(true);
-        }
+
+        score = platform.getLastScore()
+        console.log(score)
+
     }
 }
 

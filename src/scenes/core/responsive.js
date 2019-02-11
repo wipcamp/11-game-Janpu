@@ -26,7 +26,7 @@ export default class responsive extends Phaser.Scene
         }
         else if (scenewidth <= 580)
         {
-            this.scale = 0.65;
+            this.scale = 0.75;
         }
         else if (scenewidth <= 650)
         {
@@ -44,13 +44,13 @@ export default class responsive extends Phaser.Scene
         {
             this.scale = 0.9;
         }
-        else if (scenewidth <= 1400)
+        else if (scenewidth <= 1300)
         {
             this.scale = 1; 
         }
         else
         {
-            this.scale = 1.2;
+            this.scale = 1;
         }
     }
 

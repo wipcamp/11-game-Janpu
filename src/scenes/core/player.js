@@ -36,7 +36,6 @@ class GameScene extends Phaser.Scene {
         respon.check(phasers.scene.manager.game.config.height, phasers.scene.manager.game.config.width)
 
         scale = respon.getScale();
-        console.log(scale)
 
         platform = new Platform({ scene: phasers, })
         platform.create();
@@ -48,7 +47,6 @@ class GameScene extends Phaser.Scene {
         player.setScale(0.05 * scale);
 
         zone = phasers.add.zone(0, 0, respon.getPositionX() * 2, respon.getPositionY() * 2).setOrigin(0).setName('left').setInteractive();
-        console.log(zone)
 
         phasers.input.on('gameobjectdown', function (pointer) {
             player.anims.play('run');
@@ -62,7 +60,6 @@ class GameScene extends Phaser.Scene {
                 player.setVelocityY(-500);
                 countJump += 1
             }
-            console.log('click')
         });
 
         phasers.anims.create({

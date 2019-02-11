@@ -34,11 +34,10 @@ class GameScene extends Phaser.Scene {
         respon.check(phasers.scene.manager.game.config.height,phasers.scene.manager.game.config.width)
 
         scale = respon.getScale();
-        console.log(scale*scale)
 
         popUpBg = phasers.physics.add.staticImage(respon.getPositionX(),respon.getPositionY(),'gameoverbg').setVisible(false)
         popUp = phasers.physics.add.staticImage(respon.getPositionX(),respon.getPositionY()-20,'gameover').setVisible(false).setScale(0.25*scale);
-        retry = phasers.add.sprite(popUp.x-50,popUp.y+80,'retry').setVisible(false).setScale(0.15*scale);
+        retry = phasers.add.sprite(popUp.x-50*scale,popUp.y+80*scale,'retry').setVisible(false).setScale(0.15*scale);
         retry.setInteractive(); 
 
 
@@ -56,7 +55,7 @@ class GameScene extends Phaser.Scene {
             repeat: -1,
           });
 
-          lastscore = phasers.add.text(popUp.x-80,popUp.y+20, 'your score:'+score, { fontSize: 20*scale, fill: '#372f2d' }).setVisible(false);  
+          lastscore = phasers.add.text(respon.getPositionX()-85*scale,respon.getPositionY()-3+(3*scale), 'your score:'+score, { fontSize: 20*scale, fill: '#372f2d' }).setVisible(false);  
 
     }
 
@@ -69,7 +68,7 @@ class GameScene extends Phaser.Scene {
         retry.on ('pointerup', () => { 
             lastscore.setVisible(false)
             share.setVisible(false)
-            lastscore.setVisible(false)
+            popUpBg.setVisible(false)
             player.restart();
             platform.restart();
             platform.update();
@@ -93,7 +92,6 @@ class GameScene extends Phaser.Scene {
     update() {
 
         score = platform.getLastScore()
-        console.log(score)
 
     }
 }

@@ -43,8 +43,7 @@ class GameScene extends Phaser.Scene {
     create() {
 
         let respon =new Responsive()
-        respon.check(phasers.scene.manager.game.config.height,phasers.scene.manager.game.config.width)
-
+        respon.check(window.screen.height, window.screen.width)
         bg = phasers.physics.add.staticImage(respon.getPositionX(),respon.getPositionY()+80,'bg')
 
         scale = respon.getScale()

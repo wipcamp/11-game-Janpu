@@ -23,6 +23,7 @@ let gameOver = false;
 let bg
 let gamecenter
 let lastScore = 0
+let topScore
   
 let count = 0;
 
@@ -49,10 +50,7 @@ class GameScene extends Phaser.Scene {
         scale = respon.getScale()
 
         random = Math.random()*1000
-        random2 = Math.random()*1000
-
-        gamecenter = phasers.physics.add.staticImage(respon.getPositionX(),respon.getPositionY()+respon.getPositionY()-40,'gamecenter').setScale(scale*0.5)
-        gamecenter.setInteractive(); 
+        random2 = Math.random()*1000   
 
         platform1 = phasers.physics.add.sprite(5100*scale, respon.getPositionY(),'platform').setScale(1*scale);
         platform2 = phasers.physics.add.sprite(15300*scale, respon.getPositionY(),'platform').setScale(1*scale);
@@ -75,8 +73,7 @@ class GameScene extends Phaser.Scene {
         phasers.physics.add.collider(platform,obstracle)
         phasers.physics.add.collider(platform,obstracle2)
 
-        zone = phasers.add.zone(0, 0, respon.getPositionX()*2, respon.getPositionY()*2).setOrigin(0).setName('zone').setInteractive();
-
+        zone = phasers.add.zone(0, 0, respon.getPositionX()*2, respon.getPositionY()*2).setOrigin(0).setName('zone').setInteractive()
 
         phasers.input.on('gameobjectdown', function (pointer) {
             count1 +=1;    
@@ -96,6 +93,9 @@ class GameScene extends Phaser.Scene {
         cursors = phasers.input.keyboard.createCursorKeys();
 
         scoreText = phasers.add.text(16, respon.getPositionY()-160*scale, 'score: 0', { fontSize: 30*scale, fill: '#372f2d' });
+
+        topScore = phasers.add.text(respon.getPositionX()*1.6, respon.getPositionY()-160*scale, 'topScore: 0', { fontSize: 30*scale, fill: '#372f2d' });
+
 
     }
 
@@ -149,13 +149,13 @@ class GameScene extends Phaser.Scene {
         return platform.y;
     }
 
+    getCount(){
+        return count
+    }
+
     update() {
 
         lastScore = score;
-
-       /* gamecenter.on ('pointerup', () => { 
-            console.log('click')
-        });*/
 
 
         if(cursors.space.isDown){

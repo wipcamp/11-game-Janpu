@@ -46,7 +46,7 @@ class GameScene extends Phaser.Scene {
         player.body.allowGravity = true;
         player.setScale(0.05 * scale);
 
-        zone = phasers.add.zone(0, 0, respon.getPositionX() * 2, respon.getPositionY() * 2).setOrigin(0).setName('left').setInteractive();
+        zone = phasers.add.zone(0, 0, respon.getPositionX() * 2, respon.getPositionY() * 2).setOrigin(0).setName('left').setInteractive()
 
         phasers.input.on('gameobjectdown', function (pointer) {
             player.anims.play('run');
@@ -97,6 +97,7 @@ class GameScene extends Phaser.Scene {
     getPlayer() {
         return player;
     }
+
 
     update() {
 

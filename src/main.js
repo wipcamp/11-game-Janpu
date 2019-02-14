@@ -9,6 +9,7 @@ const config = {
     parent: 'content',
     width: window.screen.width,
     height: window.screen.height,
+    setBackgroundColor :'black',
     physics: {
         default: 'arcade',
         arcade: {

@@ -15,7 +15,6 @@ export default class responsive extends Phaser.Scene
     {
         sceneheight = height;
         scenewidth = width;
-        console.log('sceneheight = ' + height);
         if (scenewidth <= 450)
         {
             this.scale = 0.5;
@@ -64,5 +63,13 @@ export default class responsive extends Phaser.Scene
 
     getPositionX(){
         return scenewidth/2;
+    }
+
+    getScenceWidth(){
+        return scenewidth;
+    }
+
+    getScenceWidth(){
+        return sceneheight;
     }
 }

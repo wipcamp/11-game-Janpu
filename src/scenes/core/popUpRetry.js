@@ -8,12 +8,12 @@ let popUp
 let retry
 let player
 let platform
-let count =0;
 let popUpBg
 let share
 let scale
 let score = 0;
 let lastscore
+let gamecenter
 
 
 class GameScene extends Phaser.Scene {
@@ -55,29 +55,36 @@ class GameScene extends Phaser.Scene {
             repeat: -1,
           });
 
-          lastscore = phasers.add.text(respon.getPositionX()-85*scale,respon.getPositionY()-3+(3*scale), 'your score:'+score, { fontSize: 20*scale, fill: '#372f2d' }).setVisible(false);  
+          lastscore = phasers.add.text(respon.getPositionX()-85*scale,respon.getPositionY()-3+(3*scale), 'your score:'+score, { fontSize: 20*scale, fill: '#372f2d' }).setVisible(false); 
 
+          gamecenter = phasers.add.image(respon.getPositionX(),respon.getPositionY()+respon.getPositionY()-40,'gamecenter').setScale(scale*0.5).setVisible(false)
+          gamecenter.setInteractive();
+  
+          gamecenter.on('pointerup', () => { console.log('pointerup'); });
     }
 
     gameOver(){
         lastscore.setText('your score:'+score)
         lastscore .setVisible(true);
+        gamecenter.setVisible(true)
         popUpBg.setVisible(true)
         popUp.setVisible(true);
         retry.setVisible(true);
         retry.on ('pointerup', () => { 
+            console.log('retry')
             lastscore.setVisible(false)
             share.setVisible(false)
             popUpBg.setVisible(false)
+            gamecenter.setVisible(false)
             player.restart();
             platform.restart();
             platform.update();
-            count += 1;
         });
         share.setVisible(true);
         share.on ('pointerup', () => { 
-            
+            console.log('share')
         });
+        
     }
 
 

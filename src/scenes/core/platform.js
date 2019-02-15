@@ -1,5 +1,6 @@
 import 'phaser';
 import Responsive from './responsive';
+import axios from 'axios';
 
 let scale
 let responsive
@@ -24,6 +25,7 @@ let bg
 let gamecenter
 let lastScore = 0
 let topScore
+let heightScore 
   
 let count = 0;
 
@@ -40,8 +42,7 @@ class GameScene extends Phaser.Scene {
     }
 
 
-    create() {
-
+    create () {
         let respon =new Responsive()
         respon.check(window.screen.height, window.screen.width)
         bg = phasers.physics.add.staticImage(respon.getPositionX(),respon.getPositionY()+80,'bg')
@@ -102,6 +103,7 @@ class GameScene extends Phaser.Scene {
         
 
     }
+   
 
     gameOver(){
 

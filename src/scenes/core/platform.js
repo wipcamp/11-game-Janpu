@@ -1,5 +1,6 @@
 import 'phaser';
 import Responsive from './responsive';
+import axios from 'axios';
 
 let scale
 let responsive
@@ -24,6 +25,7 @@ let bg
 let gamecenter
 let lastScore = 0
 let topScore
+let heightScore 
   
 let count = 0;
 
@@ -40,8 +42,7 @@ class GameScene extends Phaser.Scene {
     }
 
 
-    create() {
-
+    create () {
         let respon =new Responsive()
         respon.check(window.screen.height, window.screen.width)
         bg = phasers.physics.add.staticImage(respon.getPositionX(),respon.getPositionY()+80,'bg')
@@ -92,11 +93,17 @@ class GameScene extends Phaser.Scene {
         cursors = phasers.input.keyboard.createCursorKeys();
 
         scoreText = phasers.add.text(16, respon.getPositionY()-160*scale, 'score: 0', { fontSize: 30*scale, fill: '#372f2d' });
+          axios({
+            method: 'get',
+            url: `${process.env.game_service}/janpu`,
+        }).then(res =>{
+            heightScore = res.data
+           topScore = phasers.add.text(respon.getPositionX()*1.5, respon.getPositionY()-160*scale, `topScore: ${heightScore.score}`, { fontSize: 30*scale, fill: '#372f2d' });
 
-        topScore = phasers.add.text(respon.getPositionX()*1.6, respon.getPositionY()-160*scale, 'topScore: 0', { fontSize: 30*scale, fill: '#372f2d' });
-
-
+        })
+    
     }
+   
 
     gameOver(){
 

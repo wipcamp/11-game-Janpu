@@ -30,7 +30,8 @@ let interval = setInterval(() => {
         config.width = window.screen.width
         config.height = window.screen.height
         const game = new Phaser.Game(config);
-    } if (window.screen.width >= 1025) {
+    }
+    if (window.screen.width >= 800) {
         clearInterval(interval)
         config.width = window.screen.width
         config.height = window.screen.height

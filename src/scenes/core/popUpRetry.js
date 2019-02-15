@@ -1,7 +1,8 @@
-import 'phaser';
+import 'phaser'
 import Player from './player';
 import Platform from './platform'
 import Responsive from './responsive'
+import Leader from './leader'
 
 let phasers
 let popUp
@@ -14,6 +15,7 @@ let scale
 let score = 0;
 let lastscore
 let gamecenter
+let leader
 
 
 class GameScene extends Phaser.Scene {
@@ -34,14 +36,22 @@ class GameScene extends Phaser.Scene {
         respon.check(window.screen.height, window.screen.width)
         scale = respon.getScale();
 
+
         popUpBg = phasers.physics.add.staticImage(respon.getPositionX(),respon.getPositionY(),'gameoverbg').setVisible(false)
         popUp = phasers.physics.add.staticImage(respon.getPositionX(),respon.getPositionY()-20,'gameover').setVisible(false).setScale(0.25*scale);
         retry = phasers.add.sprite(popUp.x-50*scale,popUp.y+80*scale,'retry').setVisible(false).setScale(0.15*scale);
         retry.setInteractive(); 
 
+        retry.on ('pointerup', () => { 
+            lastscore.setVisible(false)
+            share.setVisible(false)
+            popUpBg.setVisible(false)
+            gamecenter.setVisible(false)
+            player.restart();
+            platform.restart();
+            platform.update();
+        });
 
-        share = phasers.add.image(popUp.x+50,popUp.y+80,'share').setVisible(false).setScale(0.15*scale);
-        share.setInteractive();
 
         player = new Player({scene:phasers,});
 
@@ -56,10 +66,18 @@ class GameScene extends Phaser.Scene {
 
           lastscore = phasers.add.text(respon.getPositionX()-85*scale,respon.getPositionY()-3+(3*scale), 'your score:'+score, { fontSize: 20*scale, fill: '#372f2d' }).setVisible(false); 
 
+          share = phasers.add.image(popUp.x+50,popUp.y+80*scale,'share').setScale(scale*0.15).setVisible(false)
+          share.setInteractive();
+  
           gamecenter = phasers.add.image(respon.getPositionX(),respon.getPositionY()+respon.getPositionY()-40,'gamecenter').setScale(scale*0.5).setVisible(false)
           gamecenter.setInteractive();
   
-          gamecenter.on('pointerup', () => { console.log('pointerup'); });
+          gamecenter.on('pointerup', () => {  });
+
+          leader = new Leader({ scene: phasers, });
+          
+          share.on('pointerup', () => {  leader.click(); });
+          leader.create()
     }
 
     gameOver(){
@@ -68,21 +86,8 @@ class GameScene extends Phaser.Scene {
         gamecenter.setVisible(true)
         popUpBg.setVisible(true)
         popUp.setVisible(true);
+        share.setVisible(true)
         retry.setVisible(true);
-        retry.on ('pointerup', () => { 
-            console.log('retry')
-            lastscore.setVisible(false)
-            share.setVisible(false)
-            popUpBg.setVisible(false)
-            gamecenter.setVisible(false)
-            player.restart();
-            platform.restart();
-            platform.update();
-        });
-        share.setVisible(true);
-        share.on ('pointerup', () => { 
-            console.log('share')
-        });
         
     }
 

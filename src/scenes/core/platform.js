@@ -75,6 +75,7 @@ class GameScene extends Phaser.Scene {
         zone = phasers.add.zone(0, 0, respon.getPositionX()*2, respon.getPositionY()*2).setOrigin(0).setName('zone').setInteractive()
 
         phasers.input.on('gameobjectdown', function (pointer) {
+            if(!gameOver){
             count1 +=1;    
             num += 1;
             platform1.setVelocityX(-400)
@@ -86,15 +87,19 @@ class GameScene extends Phaser.Scene {
                 platform2.setVelocityX(speed);
                 obstracle.setVelocityX(speed);
                 obstracle2.setVelocityX(speed);
-            }
+            }}
+            
         });
 
         cursors = phasers.input.keyboard.createCursorKeys();
 
         scoreText = phasers.add.text(16, respon.getPositionY()-160*scale, 'score: 0', { fontSize: 30*scale, fill: '#372f2d' });
+        scoreText.setScale(scale)
 
         topScore = phasers.add.text(respon.getPositionX()*1.6, respon.getPositionY()-160*scale, 'topScore: 0', { fontSize: 30*scale, fill: '#372f2d' });
+        topScore.setScale(scale)
 
+        
 
     }
 
@@ -110,6 +115,7 @@ class GameScene extends Phaser.Scene {
         obstracle.setVelocityX(0)
         obstracle2.setVelocityX(0)
         lastScore = score;
+        
 
         }
 
@@ -156,20 +162,20 @@ class GameScene extends Phaser.Scene {
 
         lastScore = score;
 
-
-        if(cursors.space.isDown){
+            if(cursors.space.isDown){
             count1 +=1;  
             num += 1;
             platform1.setVelocityX(-400);
             platform2.setVelocityX(-400);
             obstracle.setVelocityX(-400);
             obstracle2.setVelocityX(-400);
-            if(score>=1000){
+            if(score>=100){
                 platform1.setVelocityX(speed);
                 platform2.setVelocityX(speed);
                 obstracle.setVelocityX(speed);
                 obstracle2.setVelocityX(speed);
             }
+        
 
                  
         }
@@ -183,10 +189,10 @@ class GameScene extends Phaser.Scene {
         }
 
         if(num > 0){
-            score += 10;
+            score += 1;
             scoreText.setText('Score: ' + score);
             score = score;
-            if(score>=1000){
+            if(score>=100){
                 platform1.setVelocityX(speed);
                 platform2.setVelocityX(speed);
                 obstracle.setVelocityX(speed);
@@ -194,7 +200,7 @@ class GameScene extends Phaser.Scene {
             }
         }
 
-        if(score >= 1000+(count*1000)){
+        if(score >= 100+(count*100)){
             count += 1
             speed = (-400-(count*10))
         }

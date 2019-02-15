@@ -2,7 +2,6 @@ import 'phaser';
 import Platform from './platform'
 import PopUpRetry from './popUpRetry';
 import Responsive from './responsive'
-import { count } from 'rxjs/operator/count';
 
 let phasers
 let hiddenPlatform
@@ -15,7 +14,9 @@ let popUp;
 let scale
 let secondJump = false;
 let countJump = 0;
-let countSecond = 0
+let foot1
+let foot2
+let die
 
 
 class GameScene extends Phaser.Scene {
@@ -49,17 +50,22 @@ class GameScene extends Phaser.Scene {
         zone = phasers.add.zone(0, 0, respon.getPositionX() * 2, respon.getPositionY() * 2).setOrigin(0).setName('left').setInteractive()
 
         phasers.input.on('gameobjectdown', function (pointer) {
-            player.anims.play('run');
-            if (player.body.onFloor()) {
-
-                countJump += 1; 
-                player.setVelocityY(-500);
-
+            if(!gameOver){
+                if (player.body.onFloor()) {
+                    player.anims.play('run');
+    
+                    countJump += 1;
+                    player.setVelocityY(-500);
+                    foot1.play()
+    
+                }
+                else if (countJump < 2) {
+                    player.setVelocityY(-500);
+                    countJump += 1
+                    foot2.play()
+                }
             }
-            else if (countJump < 2) {
-                player.setVelocityY(-500);
-                countJump += 1
-            }
+
         });
 
         phasers.anims.create({
@@ -80,11 +86,41 @@ class GameScene extends Phaser.Scene {
 
         cursors = phasers.input.keyboard.createCursorKeys();
 
-       phasers.physics.add.overlap(player, platform.getObstracle(), hit);
+        phasers.physics.add.overlap(player, platform.getObstracle(), hit);
         phasers.physics.add.overlap(player, platform.getObstracle2(), hit);
 
         popUp = new PopUpRetry({ scene: phasers, })
         popUp.create();
+
+        foot1 = phasers.sound.add('foot1',{
+            mute: false,
+            volume: 4,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0
+        });
+
+        foot2 = phasers.sound.add('foot2',{
+            mute: false,
+            volume: 4,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0
+        });
+
+        die = phasers.sound.add('died',{
+            mute: false,
+            volume: 4,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0
+        });
 
     }
 
@@ -110,34 +146,38 @@ class GameScene extends Phaser.Scene {
 
         platform.update();
 
-        if (gameOver == true) {
+        if (gameOver) {
             player.setVelocityY(0);
             platform.gameOver();
             popUp.gameOver();
         }
-
-        if (cursors.space.isDown) {
-            player.anims.play('run');
-            if (player.body.onFloor() && secondJump === false) {
-                player.setVelocityY(-500);
-                secondJump = true;
-                countJump += 1
+        if (!gameOver) {
+            if (cursors.space.isDown) {
+                player.anims.play('run');
+                if (player.body.onFloor() && secondJump === false) {
+                    player.setVelocityY(-500);
+                    secondJump = true;
+                    countJump += 1
+                    foot1.play()
+                }
+                else if (countJump < 2 && secondJump === false) {
+                    player.setVelocityY(-500);
+                    secondJump = true;
+                    countJump += 1
+                    foot2.play()
+                }
             }
-            else if (countJump < 2 && secondJump === false) {
-                player.setVelocityY(-500);
-                secondJump = true;
-                countJump += 1
-            }
-        }
 
-        if (cursors.space.isUp) {
-            secondJump = false;
+            if (cursors.space.isUp) {
+                secondJump = false;
+            }
         }
 
     }
 }
 
-function hit() {
+function hit(player, Platform) {
+    die.play()
     player.anims.play('die');
     gameOver = true;
 }

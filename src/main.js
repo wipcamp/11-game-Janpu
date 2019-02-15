@@ -1,9 +1,7 @@
 import 'phaser';
 import GameScene from './scenes/GameScene';
-import CheckScene from './scenes/CheckScene';
 
 const config = {
-    // For more settings see <https://github.com/photonstorm/phaser/blob/master/src/boot/Config.js>
     type: Phaser.WEBGL,
     pixelArt: true,
     roundPixels: true,
@@ -23,14 +21,13 @@ const config = {
     ]
 };
 
-
 let interval = setInterval(() => {
     if (window.screen.width > 420 && window.screen.width < 768) {
         clearInterval(interval)
         config.width = window.screen.width
         config.height = window.screen.height
         const game = new Phaser.Game(config);
-    } if (window.screen.width >= 1025) {
+    } if (window.screen.width >= 800) {
         clearInterval(interval)
         config.width = window.screen.width
         config.height = window.screen.height

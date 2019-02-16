@@ -47,7 +47,7 @@ class GameScene extends Phaser.Scene {
         });
 
 
-        popUpBg = phasers.physics.add.staticImage(respon.getPositionX(),respon.getPositionY(),'gameoverbg').setVisible(false)
+        popUpBg = phasers.physics.add.staticImage(respon.getPositionX(),respon.getPositionY(),'gameoverbg').setVisible(false).setScale(1.5)
         popUp = phasers.physics.add.staticImage(respon.getPositionX(),respon.getPositionY()-20,'gameover').setVisible(false).setScale(0.25*scale);
         retry = phasers.add.sprite(popUp.x-50*scale,popUp.y+80*scale,'retry').setVisible(false).setScale(0.15*scale);
         retry.setInteractive(); 

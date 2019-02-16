@@ -96,7 +96,7 @@ class GameScene extends Phaser.Scene {
 
         scoreText = phasers.add.text(16, respon.getPositionY()-160*scale, 'score: 0', { fontSize: 30*scale, fill: '#372f2d' });
         scoreText.setScale(scale)
-axios.get(`${process.env.game_service}/janpu`).then(res=>{
+axios.get(`https://game.service.wip.camp/janpu`).then(res=>{
     console.log(`${res.data.score}`)
     topScore = phasers.add.text(respon.getPositionX()*1.6-50*scale, respon.getPositionY()-160*scale, `topScore:  ${res.data.score}`, { fontSize: 30*scale, fill: '#372f2d' });
     topScore.setScale(scale)
@@ -135,7 +135,7 @@ axios.get(`${process.env.game_service}/janpu`).then(res=>{
                 player_name:name,
                 score :lastScore
             }
-            axios.post(`${process.env.game_service}/janpu`,user)
+            axios.post(`https://game.service.wip.camp/janpu`,user)
         }
         num = 0;
         speed = 0;

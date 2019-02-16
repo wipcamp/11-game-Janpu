@@ -72,7 +72,7 @@ class GameScene extends Phaser.Scene {
 
         logo = phasers.add.image(frontbg.x,frontbg.y-172*scale,'leaderlogo').setScale(0.15*scale).setVisible(false)
 
-        axios.get(`${process.env.game_service}/janpu3score`).then(res=>{
+        axios.get(`https://game.service.wip.camp/janpu3score`).then(res=>{
             console.log(`${res.data}`)
             st = phasers.add.text(frontbg.x-200,frontbg.y-82*scale, `${res.data[0].player_name}:${res.data[0].score}`, { fontSize: 30*scale, fill: '#372f2d' });
             st.setScale(scale).setVisible(false)

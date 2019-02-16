@@ -16,7 +16,7 @@ let score = 0;
 let lastscore
 let gamecenter
 let leader
-
+let die
 
 class GameScene extends Phaser.Scene {
     constructor(config) {
@@ -36,6 +36,16 @@ class GameScene extends Phaser.Scene {
         respon.check(window.screen.height, window.screen.width)
         scale = respon.getScale();
 
+        die = phasers.sound.add('died',{
+            mute: false,
+            volume: 4,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0
+        });
+
 
         popUpBg = phasers.physics.add.staticImage(respon.getPositionX(),respon.getPositionY(),'gameoverbg').setVisible(false)
         popUp = phasers.physics.add.staticImage(respon.getPositionX(),respon.getPositionY()-20,'gameover').setVisible(false).setScale(0.25*scale);
@@ -50,6 +60,7 @@ class GameScene extends Phaser.Scene {
             player.restart();
             platform.restart();
             platform.update();
+            die.play()
         });
 
 
@@ -72,11 +83,11 @@ class GameScene extends Phaser.Scene {
           gamecenter = phasers.add.image(respon.getPositionX(),respon.getPositionY()+respon.getPositionY()-40,'gamecenter').setScale(scale*0.5).setVisible(false)
           gamecenter.setInteractive();
   
-          gamecenter.on('pointerup', () => {  });
+          gamecenter.on('pointerup', () => { die.play() });
 
           leader = new Leader({ scene: phasers, });
           
-          share.on('pointerup', () => {  leader.click(); });
+          share.on('pointerup', () => {  leader.click(); die.play()});
           leader.create()
     }
 

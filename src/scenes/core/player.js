@@ -16,7 +16,6 @@ let secondJump = false;
 let countJump = 0;
 let foot1
 let foot2
-let die
 
 
 class GameScene extends Phaser.Scene {
@@ -112,16 +111,6 @@ class GameScene extends Phaser.Scene {
             delay: 0
         });
 
-        die = phasers.sound.add('died',{
-            mute: false,
-            volume: 4,
-            rate: 1,
-            detune: 0,
-            seek: 0,
-            loop: false,
-            delay: 0
-        });
-
     }
 
     restart() {
@@ -177,7 +166,6 @@ class GameScene extends Phaser.Scene {
 }
 
 function hit(player, Platform) {
-    die.play()
     player.anims.play('die');
     gameOver = true;
 }

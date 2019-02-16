@@ -13,7 +13,7 @@ let logo
 let st
 let nd
 let rd
-
+let die
 
 class GameScene extends Phaser.Scene {
     constructor(config) {
@@ -29,11 +29,21 @@ class GameScene extends Phaser.Scene {
 
 
     create() {
+        die = phasers.sound.add('died',{
+            mute: false,
+            volume: 4,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0
+        });
+
         let respon =new Responsive()
         respon.check(window.screen.height, window.screen.width)
         scale = respon.getScale();
 
-        bg = phasers.add.image(respon.getPositionX(),respon.getPositionY(),'leaderbg').setVisible(false)
+        bg = phasers.add.image(respon.getPositionX(),respon.getPositionY(),'leaderbg').setVisible(false).setScale(0.75*scale)
 
         frontbg = phasers.add.image(respon.getPositionX(),respon.getPositionY()+50,'leader').setScale(0.15*scale).setVisible(false)
 
@@ -57,6 +67,7 @@ class GameScene extends Phaser.Scene {
             st.setVisible(false)
             nd.setVisible(false)
             rd.setVisible(false)
+            die.play()
         });
 
         logo = phasers.add.image(frontbg.x,frontbg.y-172*scale,'leaderlogo').setScale(0.15*scale).setVisible(false)

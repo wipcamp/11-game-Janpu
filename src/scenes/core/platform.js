@@ -1,7 +1,7 @@
 import 'phaser';
 import Responsive from './responsive';
 import axios from 'axios';
-
+let name
 let scale
 let responsive
 let phasers
@@ -26,7 +26,7 @@ let gamecenter
 let lastScore = 0
 let topScore
 let heightScore 
-  
+  let countSend = false
 let count = 0;
 
 class GameScene extends Phaser.Scene {
@@ -91,14 +91,14 @@ class GameScene extends Phaser.Scene {
             }}
             
         });
-
+       
         cursors = phasers.input.keyboard.createCursorKeys();
 
         scoreText = phasers.add.text(16, respon.getPositionY()-160*scale, 'score: 0', { fontSize: 30*scale, fill: '#372f2d' });
         scoreText.setScale(scale)
 axios.get(`${process.env.game_service}/janpu`).then(res=>{
     console.log(`${res.data.score}`)
-    topScore = phasers.add.text(respon.getPositionX()*1.6-50*scale, respon.getPositionY()-160*scale, 'topScore: 0', { fontSize: 30*scale, fill: '#372f2d' });
+    topScore = phasers.add.text(respon.getPositionX()*1.6-50*scale, respon.getPositionY()-160*scale, `topScore:  ${res.data.score}`, { fontSize: 30*scale, fill: '#372f2d' });
     topScore.setScale(scale)
 })
 
@@ -119,11 +119,24 @@ axios.get(`${process.env.game_service}/janpu`).then(res=>{
         obstracle.setVelocityX(0)
         obstracle2.setVelocityX(0)
         lastScore = score;
-        
-
+        countSend= true
+   
         }
-
+        
+        setName(person){
+            name=person
+        }
+    
+    
     restart(){
+        if(countSend){
+            countSend=false
+            let user ={
+                player_name:name,
+                score :lastScore
+            }
+            axios.post(`${process.env.game_service}/janpu`,user)
+        }
         num = 0;
         speed = 0;
         count1 = 0;

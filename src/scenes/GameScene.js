@@ -126,6 +126,9 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
+        platform = new Platform({ scene: this, })
+        person = prompt("Please enter your name:", "Wippo");
+        platform.setName(person)
 
         respon = new Responsive()
         respon.check(window.screen.height, window.screen.width)
@@ -135,7 +138,6 @@ class GameScene extends Phaser.Scene {
         player = new Player({ scene: this, })
         player.create()
 
-        platform = new Platform({ scene: this, })
 
         popUp = new PopUpRetry({ scene: this, })
 
@@ -148,7 +150,8 @@ class GameScene extends Phaser.Scene {
 
         cursors = this.input.keyboard.createCursorKeys();
         
-         person = prompt("Please enter your name:", "Wippo");
+         
+         
 
         bgsound = this.sound.add('bgSound',{
             mute: false,

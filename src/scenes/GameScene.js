@@ -128,7 +128,7 @@ class GameScene extends Phaser.Scene {
     create() {
 
         respon = new Responsive()
-        respon.check(window.screen.height, window.screen.width)
+        respon.check(window.screen.height-20/100*window.screen.height, window.screen.width)
 
         scale = respon.getScale()
 

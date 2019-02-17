@@ -33,7 +33,7 @@ class GameScene extends Phaser.Scene {
 
     create() {
         let respon = new Responsive()
-        respon.check(phasers.scene.manager.game.config.height, phasers.scene.manager.game.config.width)
+        respon.check(phasers.scene.manager.game.config.height-200*scale, phasers.scene.manager.game.config.width)
 
         scale = respon.getScale();
 

@@ -7,7 +7,7 @@ const config = {
     roundPixels: true,
     parent: 'content',
     width: window.screen.width,
-    height: window.screen.height,
+    height: window.screen.height-200,
     setBackgroundColor: 'black',
     physics: {
         default: 'arcade',
@@ -25,13 +25,14 @@ let interval = setInterval(() => {
     if (window.screen.width > 420 && window.screen.width < 768) {
         clearInterval(interval)
         config.width = window.screen.width
-        config.height = window.screen.height
+        config.height = window.screen.height-20/100*window.screen.height
         const game = new Phaser.Game(config);
     } if (window.screen.width >= 800) {
         clearInterval(interval)
         config.width = window.screen.width
-        config.height = window.screen.height
+        config.height = window.screen.height-20/100*window.screen.height
         const game = new Phaser.Game(config);
     }
 }, 1000);
+
 

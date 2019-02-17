@@ -17,6 +17,7 @@ let lastscore
 let gamecenter
 let leader
 let die
+let cursors
 
 class GameScene extends Phaser.Scene {
     constructor(config) {
@@ -33,7 +34,7 @@ class GameScene extends Phaser.Scene {
 
     create() {
         let respon =new Responsive()
-        respon.check(window.screen.height, window.screen.width)
+        respon.check(window.screen.height-20/100*window.screen.height, window.screen.width)
         scale = respon.getScale();
 
         die = phasers.sound.add('died',{
@@ -89,6 +90,8 @@ class GameScene extends Phaser.Scene {
           
           share.on('pointerup', () => {  leader.click(); die.play()});
           leader.create()
+
+          cursors = phasers.input.keyboard.createCursorKeys();
     }
 
     gameOver(){
@@ -99,7 +102,16 @@ class GameScene extends Phaser.Scene {
         popUp.setVisible(true);
         share.setVisible(true)
         retry.setVisible(true);
-        
+        if(cursors.space.isDown){
+            lastscore.setVisible(false)
+            share.setVisible(false)
+            popUpBg.setVisible(false)
+            gamecenter.setVisible(false)
+            player.restart();
+            platform.restart();
+            platform.update();
+            die.play()
+        }
     }
 
 

@@ -1,6 +1,6 @@
 import 'phaser'
 import Responsive from './responsive'
-
+import axios from 'axios'
 let phasers
 let scale
 let frontbg
@@ -72,14 +72,18 @@ class GameScene extends Phaser.Scene {
 
         logo = phasers.add.image(frontbg.x,frontbg.y-172*scale,'leaderlogo').setScale(0.15*scale).setVisible(false)
 
-        st = phasers.add.text(frontbg.x-200,frontbg.y-82*scale, 'topScore: 0', { fontSize: 30*scale, fill: '#372f2d' });
-        st.setScale(scale).setVisible(false)
-
-        nd = phasers.add.text(frontbg.x-200,frontbg.y-10*scale, 'topScore: 0', { fontSize: 30*scale, fill: '#372f2d' });
-        nd.setScale(scale).setVisible(false)
-
-        rd = phasers.add.text(frontbg.x-200,frontbg.y+57*scale, 'topScore: 0', { fontSize: 30*scale, fill: '#372f2d' });
-        rd.setScale(scale).setVisible(false)
+        axios.get(`https://game.service.wip.camp/api/janpu3score`).then(res=>{
+            console.log(`${res.data}`)
+            st = phasers.add.text(frontbg.x-200,frontbg.y-82*scale, `${res.data[0].player_name}:${res.data[0].score}`, { fontSize: 30*scale, fill: '#372f2d' });
+            st.setScale(scale).setVisible(false)
+    
+            nd = phasers.add.text(frontbg.x-200,frontbg.y-10*scale, `${res.data[1].player_name}:${res.data[1].score}`, { fontSize: 30*scale, fill: '#372f2d' });
+            nd.setScale(scale).setVisible(false)
+    
+            rd = phasers.add.text(frontbg.x-200,frontbg.y+57*scale, `${res.data[2].player_name}:${res.data[2].score}`, { fontSize: 30*scale, fill: '#372f2d' });
+            rd.setScale(scale).setVisible(false)
+        })
+     
 
     }
 

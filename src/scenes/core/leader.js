@@ -1,6 +1,9 @@
 import 'phaser'
 import Responsive from './responsive'
 import axios from 'axios'
+import Platform from './platform'
+
+let platform
 let phasers
 let scale
 let frontbg
@@ -29,6 +32,9 @@ class GameScene extends Phaser.Scene {
 
 
     create() {
+
+        platform = new Platform({ scene: phasers, })
+
         die = phasers.sound.add('died',{
             mute: false,
             volume: 4,
@@ -40,7 +46,7 @@ class GameScene extends Phaser.Scene {
         });
 
         let respon =new Responsive()
-        respon.check(window.screen.height, window.screen.width)
+        respon.check(window.screen.height-20/100*window.screen.height, window.screen.width)
         scale = respon.getScale();
 
         bg = phasers.add.image(respon.getPositionX(),respon.getPositionY(),'leaderbg').setVisible(false).setScale(0.75*scale)
@@ -68,6 +74,7 @@ class GameScene extends Phaser.Scene {
             nd.setVisible(false)
             rd.setVisible(false)
             die.play()
+            platform.onTopscore()
         });
 
         logo = phasers.add.image(frontbg.x,frontbg.y-172*scale,'leaderlogo').setScale(0.15*scale).setVisible(false)
@@ -102,7 +109,6 @@ class GameScene extends Phaser.Scene {
 
     update() {
 
-        
 
     }
 }

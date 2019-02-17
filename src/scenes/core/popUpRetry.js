@@ -90,7 +90,7 @@ class GameScene extends Phaser.Scene {
 
           leader = new Leader({ scene: phasers, });
           
-          share.on('pointerup', () => {  leader.click(); die.play()});
+          share.on('pointerup', () => {  leader.click(); die.play();platform.offTopscore()});
           leader.create()
 
           cursors = phasers.input.keyboard.createCursorKeys();

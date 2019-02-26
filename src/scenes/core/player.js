@@ -1,4 +1,5 @@
 import 'phaser';
+import axios from 'axios';
 import Platform from './platform'
 import PopUpRetry from './popUpRetry';
 import Responsive from './responsive'
@@ -16,6 +17,7 @@ let secondJump = false;
 let countJump = 0;
 let foot1
 let foot2
+let name
 
 
 class GameScene extends Phaser.Scene {
@@ -116,11 +118,15 @@ class GameScene extends Phaser.Scene {
     restart() {
         popUp.getPopUp().setVisible(false);
         popUp.getRetry().setVisible(false);
+        player.body.enable=true
         gameOver = false;
     }
 
     getPlayer() {
         return player;
+    }
+    setName(person){
+        name=person
     }
 
 
@@ -165,8 +171,13 @@ class GameScene extends Phaser.Scene {
     }
 }
 
-function hit(player, Platform) {
-    player.anims.play('die');
+function hit() {
+    player.body.enable=false
+   let endScore = {
+    player_name:name,
+    score:platform.getLastScore()
+   }
+    axios.post(`https://game.service.wip.camp/api/janpu`,endScore)
     gameOver = true;
 }
 

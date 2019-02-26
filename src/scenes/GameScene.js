@@ -128,7 +128,7 @@ class GameScene extends Phaser.Scene {
     create() {
         platform = new Platform({ scene: this, })
         person = prompt("Please enter your name:", "Wippo");
-        platform.setName(person)
+        
 
         respon = new Responsive()
         respon.check(window.screen.height-20/100*window.screen.height, window.screen.width)
@@ -137,7 +137,7 @@ class GameScene extends Phaser.Scene {
 
         player = new Player({ scene: this, })
         player.create()
-
+        player.setName(person)
 
         popUp = new PopUpRetry({ scene: this, })
 

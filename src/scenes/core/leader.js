@@ -80,7 +80,6 @@ class GameScene extends Phaser.Scene {
         logo = phasers.add.image(frontbg.x,frontbg.y-172*scale,'leaderlogo').setScale(0.15*scale).setVisible(false)
 
         axios.get(`https://game.service.wip.camp/api/janpu3score`).then(res=>{
-            console.log(`${res.data}`)
             st = phasers.add.text(frontbg.x-200,frontbg.y-82*scale, `${res.data[0].player_name}:${res.data[0].score}`, { fontSize: 30*scale, fill: '#372f2d' });
             st.setScale(scale).setVisible(false)
     
@@ -95,6 +94,7 @@ class GameScene extends Phaser.Scene {
     }
 
     click(){
+        
         bg.setVisible(true)
         frontbg.setVisible(true)
         first.setVisible(true)
@@ -105,6 +105,11 @@ class GameScene extends Phaser.Scene {
         st.setVisible(true)
         nd.setVisible(true)
         rd.setVisible(true)
+        axios.get(`https://game.service.wip.camp/api/janpu3score`).then(res=>{
+            st.setText(`${res.data[0].player_name}:${res.data[0].score}`)
+            nd.setText(`${res.data[1].player_name}:${res.data[1].score}`)
+            rd.setText(`${res.data[2].player_name}:${res.data[2].score}`)
+        })
     }
 
     update() {

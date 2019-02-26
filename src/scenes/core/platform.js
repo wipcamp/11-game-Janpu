@@ -97,7 +97,6 @@ class GameScene extends Phaser.Scene {
         scoreText = phasers.add.text(16, respon.getPositionY()-160*scale, 'score: 0', { fontSize: 30*scale, fill: '#372f2d' });
         scoreText.setScale(scale)
 axios.get(`https://game.service.wip.camp/api/janpu`).then(res=>{
-    console.log(`${res.data.score}`)
     topScore = phasers.add.text(respon.getPositionX()*1.3, respon.getPositionY()-160*scale, `topScore:  ${res.data.score}`, { fontSize: 30*scale, fill: '#372f2d' });
     topScore.setScale(scale)
 })
@@ -108,7 +107,7 @@ axios.get(`https://game.service.wip.camp/api/janpu`).then(res=>{
    
 
     gameOver(){
-
+       
         num = 0;
         num -= 10;
         rotate = 0;
@@ -129,14 +128,9 @@ axios.get(`https://game.service.wip.camp/api/janpu`).then(res=>{
     
     
     restart(){
-        if(countSend){
-            countSend=false
-            let user ={
-                player_name:name,
-                score :lastScore
-            }
-            axios.post(`https://game.service.wip.camp/api/janpu`,user)
-        }
+        axios.get(`https://game.service.wip.camp/api/janpu`).then(res=>{
+            topScore.setText(`topScore:  ${res.data.score}`)
+        })
         num = 0;
         speed = 0;
         count1 = 0;
